@@ -14,7 +14,7 @@ concat_excel_sheets(path, sheets = "all", ...)
 \item{...}{(Optional) To pass additional arguments to read_excel().}
 }
 \value{
-A tibble containing the merged observations from the selected sheets.
+A tibble containing the merged observations from the selected sheets. All column data types are left as 'character' to facilitate when binding multiple Excel files.
 }
 \description{
 Concatenates selected sheets within an Excel file. It does not infer data-types to facilitate binding sheets Use readr::type_convert() to guess column types. Use ... to pass additional arguments to read_excel().

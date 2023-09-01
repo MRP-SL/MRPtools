@@ -15,9 +15,6 @@ load_delim_directory <- function(dir, delim, ...) {
     # Sheets specifies which sheets in each of the Excel files within the
     # directory should be used. Use ... to pass additional arguments to read_excel.
 
-    require(readr, quietly = TRUE)
-    require(dplyr, quietly = TRUE)
-
     stopifnot("the supplied directory does not exist" = dir.exists(dir))
     stopifnot("delim must be a single character" = length(delim) == 1 & nchar(delim) == 1)
 

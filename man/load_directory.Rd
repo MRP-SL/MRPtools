@@ -13,6 +13,8 @@ load_directory(dir, type = "excel", sheets = "all", delim = NULL, ...)
 
 \item{sheets}{(Optional) A numeric vector of indices or a character vector of names for the sheets to use.}
 
+\item{delim}{(Optional) Required if type is 'delim'. Single character used to separate fields within a record.}
+
 \item{...}{(Optional) To pass additional arguments to read_excel().}
 }
 \value{

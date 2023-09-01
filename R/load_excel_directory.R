@@ -13,8 +13,6 @@
 #' @examples
 load_excel_directory <- function(dir, sheets = "all", ...) {
 
-    require(dplyr, quietly = TRUE)
-
     stopifnot("the supplied directory does not exist" = dir.exists(dir))
 
     filepaths <- list.files(dir, full.names = TRUE)

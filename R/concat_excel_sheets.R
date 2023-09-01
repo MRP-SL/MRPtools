@@ -12,8 +12,9 @@
 #' @examples
 concat_excel_sheets <- function(path, sheets = "all", ...) {
 
-    require(readxl, quietly = TRUE)
-    require(dplyr, quietly = TRUE)
+    # Check if file exists and sheets param is permissible
+    stopifnot("file does not exist" = file.exists(path))
+    stopifnot("'sheets' must be a character vector of names or a numeric vector of indices" = is.character(sheets) | is.numeric(sheets))
 
     # Check if user-supplied sheets exist in the Excel file
     if (sheets != "all" & is.character(sheets)) {
@@ -24,9 +25,6 @@ concat_excel_sheets <- function(path, sheets = "all", ...) {
         stopifnot("numeric index contains value large than highest-numbered Excel sheet" =
                       max(sheets) <= length(readxl::excel_sheets(path)))
     }
-
-    stopifnot("'sheets' must be a character vector of names or a numeric vector of indices" = is.character(sheets) | is.numeric(sheets))
-
 
     # We loop over all sheets if user specifies "all"
     if (sheets == "all") {

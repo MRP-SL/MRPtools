@@ -13,6 +13,9 @@ load_excel(path, sheets = "all", ...)
 
 \item{...}{(Optional) To pass additional arguments to read_excel().}
 }
+\value{
+A tibble containing the merged observations from the selected sheets.
+}
 \description{
 Read and append sheets within an Excel file. Optionally, you can specify which sheets should be loaded using a vector of indices of sheet names. Use ... to pass additional arguments to readxl::read_excel(), which is used under the hood.
 }

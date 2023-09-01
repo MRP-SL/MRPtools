@@ -6,6 +6,7 @@
 #' @param dir The directory to load.
 #' @param type Type of files within the supplied directory. Either "excel" or "csv".
 #' @param sheets (Optional) A numeric vector of indices or a character vector of names for the sheets to use.
+#' @param delim (Optional) Required if type is 'delim'. Single character used to separate fields within a record.
 #' @param ... (Optional) To pass additional arguments to read_excel().
 #'
 #' @return A tibble containing the merged observations from the selected files and sheets.
@@ -13,8 +14,6 @@
 #'
 #' @examples
 load_directory <- function(dir, type = "excel", sheets = "all", delim = NULL, ...) {
-
-    require(dplyr, quietly = TRUE)
 
     stopifnot("only types 'excel', 'csv', and 'delim' are supported" = type == "excel" | type == "csv" | type == "delim")
 
