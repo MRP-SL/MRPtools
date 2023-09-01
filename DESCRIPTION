@@ -1,12 +1,11 @@
 Package: MRPtools
-Title: What the Package Does (One Line, Title Case)
+Title: A Collection of Tools to Simplify Working with Data at NRA
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person("Jordan", "Imahori", , "jordan.imahori@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-0697-2508"))
+Description: This package provides tools for loading multi-file and multi-sheet exports from NRAs internal tools, comparing data.frames, and other tools that simplify commonly performed tasks at MRP. 
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
