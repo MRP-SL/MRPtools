@@ -4,12 +4,21 @@
 \alias{load_directory}
 \title{load_directory}
 \usage{
-load_directory(dir, type = "excel", sheets = "all", delim = NULL, ...)
+load_directory(
+  dir,
+  type = "excel",
+  quiet = FALSE,
+  sheets = "all",
+  delim = NULL,
+  ...
+)
 }
 \arguments{
 \item{dir}{The directory to load.}
 
 \item{type}{Type of files within the supplied directory. Either "excel" or "csv".}
+
+\item{quiet}{Silences printing progress to the console.}
 
 \item{sheets}{(Optional) A numeric vector of indices or a character vector of names for the sheets to use.}
 

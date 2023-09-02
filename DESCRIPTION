@@ -13,4 +13,8 @@ Imports:
     dplyr,
     purrr,
     readr,
-    readxl
+    readxl,
+    withr
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

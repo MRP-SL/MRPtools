@@ -4,20 +4,21 @@
 #'
 #' @param path Path to the .xls or .xlsx document.
 #' @param sheets A numeric vector of indices or a character vector of names for the sheets to use.
+#' @param quiet Silences printing progress to the console.
 #' @param ... (Optional) To pass additional arguments to read_excel().
 #'
 #' @return A tibble containing the merged observations from the selected sheets. All column data types are left as 'character' to facilitate when binding multiple Excel files.
 #' @export
 #'
 #' @examples
-concat_excel_sheets <- function(path, sheets = "all", ...) {
+concat_excel_sheets <- function(path, sheets = "all", quiet = FALSE, ...) {
 
     # Check if file exists and sheets param is permissible
     stopifnot("file does not exist" = file.exists(path))
     stopifnot("'sheets' must be a character vector of names or a numeric vector of indices" = is.character(sheets) | is.numeric(sheets))
 
     # Check if user-supplied sheets exist in the Excel file
-    if (sheets != "all" & is.character(sheets)) {
+    if (!identical(sheets, "all") & is.character(sheets)) {
         file_sheets = readxl::excel_sheets(path)
         stopifnot("at least one supplied sheet name not found in Excel file" =
                       all(sheets %in% file_sheets))
@@ -27,25 +28,26 @@ concat_excel_sheets <- function(path, sheets = "all", ...) {
     }
 
     # We loop over all sheets if user specifies "all"
-    if (sheets == "all") {
+    if (identical(sheets, "all")) {
         sheets <- readxl::excel_sheets(path)
+    } else if (is.numeric(sheets)) {
+        sheets <- readxl::excel_sheets(path)[sheets]
     }
 
-    i = 2
-    print(paste("Loading:", path))
+    if (!quiet) {print(paste("Loading:", path))}
 
     for (sheet in sheets) {
         if (exists("output")) {
-            print(paste("...Sheet", i))
-            i = i + 1
+            if(!quiet) {print(paste("...", sheet, sep = ""))}
             output <- dplyr::bind_rows(
                 output,
-                readxl::read_excel(path = path, sheet = sheet, col_types = "text", ...)
+                purrr::map_df(readxl::read_excel(path = path, sheet = sheet, ...), as.character)
             )
         } else {
-            print("...Sheet 1")
-            output <- readxl::read_excel(path = path, sheet = sheet, col_types = "text", ...)
+            if (!quiet) {print(paste("...", sheet, sep = ""))}
+            output <- purrr::map_df(readxl::read_excel(path = path, sheet = sheet, ...), as.character)
         }
     }
+
     return(output)
 }

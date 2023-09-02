@@ -4,12 +4,14 @@
 \alias{load_excel}
 \title{load_excel}
 \usage{
-load_excel(path, sheets = "all", ...)
+load_excel(path, sheets = "all", quiet = FALSE, ...)
 }
 \arguments{
 \item{path}{The Excel file to load.}
 
-\item{sheets}{(Optional) A numeric vector of indices or a character vector of names for the sheets to use.}
+\item{sheets}{A numeric or character vector of indices for sheets, or "all".}
+
+\item{quiet}{Silences printing progress to the console.}
 
 \item{...}{(Optional) To pass additional arguments to read_excel().}
 }

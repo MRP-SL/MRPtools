@@ -4,12 +4,14 @@
 \alias{concat_excel_sheets}
 \title{concat_excel_sheets}
 \usage{
-concat_excel_sheets(path, sheets = "all", ...)
+concat_excel_sheets(path, sheets = "all", quiet = FALSE, ...)
 }
 \arguments{
 \item{path}{Path to the .xls or .xlsx document.}
 
 \item{sheets}{A numeric vector of indices or a character vector of names for the sheets to use.}
+
+\item{quiet}{Silences printing progress to the console.}
 
 \item{...}{(Optional) To pass additional arguments to read_excel().}
 }

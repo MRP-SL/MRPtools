@@ -4,12 +4,14 @@
 \alias{load_delim_directory}
 \title{load_delim_directory}
 \usage{
-load_delim_directory(dir, delim, ...)
+load_delim_directory(dir, delim, quiet = FALSE, ...)
 }
 \arguments{
 \item{dir}{The directory in which to load all files.}
 
 \item{delim}{Single character used to separate fields within a record.}
+
+\item{quiet}{Silences printing progress to the console.}
 
 \item{...}{(Optional) To pass additional arguments to read_excel().}
 }

@@ -4,13 +4,14 @@
 #'
 #' @param dir The directory in which to load all files.
 #' @param delim Single character used to separate fields within a record.
+#' @param quiet Silences printing progress to the console.
 #' @param ... (Optional) To pass additional arguments to read_excel().
 #'
 #' @return A tibble containing the merged observations from the selected sheets.
 #' @export
 #'
 #' @examples
-load_delim_directory <- function(dir, delim, ...) {
+load_delim_directory <- function(dir, delim, quiet = FALSE, ...) {
     # Read and append all Excel files in a directory using readr::read_excel().
     # Sheets specifies which sheets in each of the Excel files within the
     # directory should be used. Use ... to pass additional arguments to read_excel.
@@ -22,11 +23,13 @@ load_delim_directory <- function(dir, delim, ...) {
 
     for (file in filepaths) {
         if (exists("output")) {
+            if (!quiet) {print(paste("Loading:", file))}
             output <- dplyr::bind_rows(
                 output,
                 readr::read_delim(file, delim = delim, col_types = "character", ...)
             )
         } else {
+            if (!quiet) {print(paste("Loading:", file))}
             output <- readr::read_delim(file, delim = delim, col_types = "character", ...)
         }
     }

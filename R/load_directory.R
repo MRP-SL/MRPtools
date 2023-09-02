@@ -5,6 +5,7 @@
 #'
 #' @param dir The directory to load.
 #' @param type Type of files within the supplied directory. Either "excel" or "csv".
+#' @param quiet Silences printing progress to the console.
 #' @param sheets (Optional) A numeric vector of indices or a character vector of names for the sheets to use.
 #' @param delim (Optional) Required if type is 'delim'. Single character used to separate fields within a record.
 #' @param ... (Optional) To pass additional arguments to read_excel().
@@ -13,7 +14,7 @@
 #' @export
 #'
 #' @examples
-load_directory <- function(dir, type = "excel", sheets = "all", delim = NULL, ...) {
+load_directory <- function(dir, type = "excel", quiet = FALSE, sheets = "all", delim = NULL, ...) {
 
     stopifnot("only types 'excel', 'csv', and 'delim' are supported" = type == "excel" | type == "csv" | type == "delim")
 
@@ -28,10 +29,10 @@ load_directory <- function(dir, type = "excel", sheets = "all", delim = NULL, ..
     # split and take last entry, then assert all are of type type
 
     if (type == "excel") {
-        load_excel_directory(dir, sheets = sheets, ...)
+        load_excel_directory(dir, sheets = sheets, quiet = quiet, ...)
     } else if (type == "csv") {
-        load_delim_directory(dir, delim = ",", ...)
+        load_delim_directory(dir, delim = ",", quiet = quiet, ...)
     } else {
-        load_delim_directory(dir, delim = delim, ...)
+        load_delim_directory(dir, delim = delim, quiet = quiet, ...)
     }
 }

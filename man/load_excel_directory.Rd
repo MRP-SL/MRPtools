@@ -4,12 +4,14 @@
 \alias{load_excel_directory}
 \title{load_excel_directory}
 \usage{
-load_excel_directory(dir, sheets = "all", ...)
+load_excel_directory(dir, sheets = "all", quiet = FALSE, ...)
 }
 \arguments{
 \item{dir}{The directory in which to load all files.}
 
-\item{sheets}{(Optional) A numeric vector of indices or a character vector of names for the sheets to use.}
+\item{sheets}{A numeric vector of indices or a character vector of names for the sheets to use.}
+
+\item{quiet}{Silences printing progress to the console.}
 
 \item{...}{(Optional) To pass additional arguments to read_excel().}
 }
