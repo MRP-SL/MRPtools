@@ -12,9 +12,6 @@
 #'
 #' @examples
 load_delim_directory <- function(dir, delim, quiet = FALSE, ...) {
-    # Read and append all Excel files in a directory using readr::read_excel().
-    # Sheets specifies which sheets in each of the Excel files within the
-    # directory should be used. Use ... to pass additional arguments to read_excel.
 
     stopifnot("the supplied directory does not exist" = dir.exists(dir))
     stopifnot("delim must be a single character" = length(delim) == 1 & nchar(delim) == 1)
@@ -26,11 +23,11 @@ load_delim_directory <- function(dir, delim, quiet = FALSE, ...) {
             if (!quiet) {print(paste("Loading:", file))}
             output <- dplyr::bind_rows(
                 output,
-                readr::read_delim(file, delim = delim, col_types = "character", ...)
+                readr::read_delim(file, delim = delim, ...)
             )
         } else {
             if (!quiet) {print(paste("Loading:", file))}
-            output <- readr::read_delim(file, delim = delim, col_types = "character", ...)
+            output <- readr::read_delim(file, delim = delim, ...)
         }
     }
 

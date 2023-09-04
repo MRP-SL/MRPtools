@@ -6,12 +6,22 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of MRPtools is to …
+MRPtools provides a set of convenience functions that solve common
+challenges when working with data in the Monitoring, Research and
+Planning Department. the `load_*` family of functions iterate over a
+directory of alike files and append each of the files together. If the
+files are Excel files, they also allow the user to specify which sheets
+(by default all) should be included. These functions are primarily
+designed for loading exports from ASYCUDA/ITAS/ECR systems, although
+they will work whenever the supplied sheets have consistently-named
+variables.
+
+In the near-future, additional tools for loading data from NRA’s Data
+Warehouse will also be added here.
 
 ## Installation
 
-You can install the development version of MRPtools from
-[GitHub](https://github.com/) with:
+You can install MRPtools from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
@@ -20,33 +30,27 @@ devtools::install_github("jordanimahori/MRPtools")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+    library(MRPtools)
 
-``` r
-library(MRPtools)
-## basic example code
-```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+    # load_directory reads all files of the appropriate type within a directory
+    excel_dir <- load_directory("data/excel", type = "excel")
+    csv_dir <- load_directory("data/csv", type = "csv")
+    csv_dir2 <- load_directory("data/csv", type = "delim", delim = ",")
 
-``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
+    # Alternatively, to read a single Excel file: 
+    all_sheets <- load_excel("data/examle-data-subset.xlsx")
 
-You can also embed plots, for example:
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+    # For both directories or single files, you can specify specific sheets to load
+    one_two <- load_excel("data/example-data-subset.xlsx", sheets = 1:2)
+    jan_feb <- load_excel("data/example-data-subset.xlsx", sheets = c("January", "February"))
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+    all.equal(own_two, jan_feb)  # Evaluates to TRUE
+
+
+    # Under the hood, these functions call readxl::read_excel or readr::read_delim
+    # You can supply additional arguments to these functions using '...'
+
+    load_directory("data/excel", type = "excel", sheets = 1, skip = 3)
