@@ -25,10 +25,13 @@ You can install MRPtools from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("jordanimahori/MRPtools")
+devtools::install_github("MRP-SL/MRPtools")
 ```
 
-## Example
+## Loading Exports Stored Locally
+
+MRPtools provides several functions to enable quick importing of files
+stores locally.
 
     library(MRPtools)
 
@@ -52,5 +55,15 @@ devtools::install_github("jordanimahori/MRPtools")
 
     # Under the hood, these functions call readxl::read_excel or readr::read_delim
     # You can supply additional arguments to these functions using '...'
-
     load_directory("data/excel", type = "excel", sheets = 1, skip = 3)
+
+## Connecting to Databases
+
+MRPtools also provides utilities for connecting to databases, including
+the NRA’s own Data Warehouse. Currently, these functions have been
+tested against the Data Warehouse. Further work is required to ensure
+they also work with ITAS/ASYCUDA/ECR production databases, although in
+principle they should.
+
+    # Connect to the Data Warehouse
+    ...tbd...
