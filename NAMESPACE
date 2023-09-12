@@ -2,8 +2,10 @@
 
 export(compare_dfs)
 export(concat_excel_sheets)
+export(establish_db_connection)
 export(load_delim_directory)
 export(load_directory)
 export(load_excel)
 export(load_excel_directory)
+export(setup_database_access)
 import(purrr)
