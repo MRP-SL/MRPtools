@@ -19,7 +19,7 @@ load_excel_directory <- function(dir, sheets = "all", quiet = FALSE, ...) {
     filepaths <- list.files(dir, full.names = TRUE)
 
     for (file in filepaths) {
-        if (exists("output")) {
+        if (exists("output", inherits = FALSE)) {
             output <- dplyr::bind_rows(
                 output,
                 concat_excel_sheets(file, sheets = sheets, quiet = quiet, ...)

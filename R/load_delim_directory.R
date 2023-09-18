@@ -19,7 +19,7 @@ load_delim_directory <- function(dir, delim, quiet = FALSE, ...) {
     filepaths <- list.files(dir, full.names = TRUE)
 
     for (file in filepaths) {
-        if (exists("output")) {
+        if (exists("output", inherits = FALSE)) {
             if (!quiet) {print(paste("Loading:", file))}
             output <- dplyr::bind_rows(
                 output,

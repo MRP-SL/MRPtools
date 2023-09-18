@@ -37,7 +37,7 @@ concat_excel_sheets <- function(path, sheets = "all", quiet = FALSE, ...) {
     if (!quiet) {print(paste("Loading:", path))}
 
     for (sheet in sheets) {
-        if (exists("output")) {
+        if (exists("output", inherits = FALSE)) {
             if(!quiet) {print(paste("...", sheet, sep = ""))}
             output <- dplyr::bind_rows(
                 output,
