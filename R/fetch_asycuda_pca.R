@@ -12,7 +12,7 @@
 fetch_asycuda_pca <- function(db_con, cols = NULL, reg_date = NULL, dec_type = NULL) {
 
     # Validate database object
-    stopifnot("Object supplied as db_col is not an active connection" = DBI::dbIsValid(db_col))
+    stopifnot("Object supplied as db_con is not an active connection" = DBI::dbIsValid(db_con))
 
     # Validate user-supplied cols, otherwise set 'cols' to a default value
     if (!is.null(cols)) {
@@ -48,11 +48,12 @@ fetch_asycuda_pca <- function(db_con, cols = NULL, reg_date = NULL, dec_type = N
         pca_query <- glue::glue_sql(
             'SELECT {`cols`*}
             FROM "NRADWH"."ASY_POST_CLEARANCE_AUDIT"
-            WHERE "DECTYPE" IN ({dec_type})'
+            WHERE "DECTYPE" IN ({dec_type})',
+            .con = db_con
         )
     }
 
     # Retrieve Records Matching PCA Query
-    pca <- dbGetQuery(NRADWH, statement = pca_query)
+    pca <- DBI::dbGetQuery(db_con, statement = pca_query)
 
 }

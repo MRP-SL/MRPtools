@@ -12,7 +12,7 @@
 fetch_asycuda_import_export <- function(db_con, cols = NULL, reg_date, dec_type = NULL) {
 
     # Validate database object
-    stopifnot("Object supplied as db_col is not an active connection" = DBI::dbIsValid(db_col))
+    stopifnot("Object supplied as db_con is not an active connection" = DBI::dbIsValid(db_con))
 
     # Validate user-supplied cols, otherwise set 'cols' to a default value
     if (!is.null(cols)) {
@@ -23,29 +23,29 @@ fetch_asycuda_import_export <- function(db_con, cols = NULL, reg_date, dec_type 
 
     if (!is.null(reg_date)) {
         # Confirm only two values supplied. Take the first as start and second as end.
-        stopifnot("reg_date must be a vector of length 2" = lenth(reg_date) == 2)
+        stopifnot("reg_date must be a vector of length 2" = length(reg_date) == 2)
         start_date <- lubridate::date(reg_date[1])
         end_date <- lubridate::date(reg_date[2])
     }
 
     # Construct our query based on user-supplied arguments
-    if (!is.null(dec_codes)) {
+    if (!is.null(dec_type)) {
 
-        stopifnot(all(dec_code %in% DECTYPE_CODES))
+        stopifnot(all(dec_type %in% DECTYPE_CODES))
         ie_query <- glue::glue_sql('SELECT {`cols`*}
                                    FROM "NRADWH"."ASY_IMP_EXP_STATS"
                                    WHERE "REGDATE" BETWEEN {start_date} AND {end_date}
                                    AND "DECTYPE" IN ({dec_type*})',
-                                   .con = NRADWH
+                                   .con = db_con
         )
     } else {
         ie_query <- glue::glue_sql('SELECT {`cols`*}
                                    FROM "NRADWH"."ASY_IMP_EXP_STATS"
                                    WHERE "REGDATE" BETWEEN {start_date} AND {end_date}',
-                                   .con = NRADWH
+                                   .con = db_con
         )
     }
 
-    import_export <- db_batched_query(NRADWH, ie_query, 10000)
+    import_export <- db_batched_query(db_con, ie_query, 10000)
 
 }

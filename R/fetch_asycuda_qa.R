@@ -11,7 +11,7 @@
 fetch_asycuda_qa <- function(db_con, cols = NULL, reg_date = NULL) {
 
     # Validate database object
-    stopifnot("Object supplied as db_col is not an active connection" = DBI::dbIsValid(db_col))
+    stopifnot("Object supplied as db_con is not an active connection" = DBI::dbIsValid(db_con))
 
     if (!is.null(cols)) {
         stopifnot("Some cols are not found in RMU table" = all(cols %in% ASYCUDA_COLS["QA_COLS"]))
@@ -44,6 +44,6 @@ fetch_asycuda_qa <- function(db_con, cols = NULL, reg_date = NULL) {
     }
 
     # Retrieve Records Matching Q&A Query
-    qa <- dbGetQuery(db_con, statement = qa_query)
+    qa <- DBI::dbGetQuery(db_con, statement = qa_query)
 
 }

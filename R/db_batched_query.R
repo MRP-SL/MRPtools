@@ -1,14 +1,14 @@
-db_batched_query <- function(database_obj, query, batch_size) {
-    request <- dbSendQuery(database_obj, statement = query)
-    on.exit(dbClearResult(request))
+db_batched_query <- function(db_con, query, batch_size) {
+    request <- DBI::dbSendQuery(db_con, statement = query)
+    on.exit(DBI::dbClearResult(request))
 
     i <- 1
 
-    while(!dbHasCompleted(request)) {
+    while(!DBI::dbHasCompleted(request)) {
         if (exists("result", inherits = FALSE)) {
-            result <- rbind(result, dbFetch(request, n = batch_size))
+            result <- rbind(result, DBI::dbFetch(request, n = batch_size))
         } else {
-            result <- dbFetch(request, n = batch_size)
+            result <- DBI::dbFetch(request, n = batch_size)
         }
         print(paste("Retrieved Batch:", i))
         i <- i + 1

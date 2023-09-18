@@ -12,7 +12,7 @@
 fetch_asycuda_rmu <- function(db_con, cols = NULL, reg_date = NULL, dec_type = NULL) {
 
     # Validate database object
-    stopifnot("Object supplied as db_col is not an active connection" = DBI::dbIsValid(db_col))
+    stopifnot("Object supplied as db_con is not an active connection" = DBI::dbIsValid(db_con))
 
     if (!is.null(cols)) {
         # Validate the cols supplied by the user
@@ -31,7 +31,7 @@ fetch_asycuda_rmu <- function(db_con, cols = NULL, reg_date = NULL, dec_type = N
     }
 
     # Validate user-supplied dec types, otherwise set it to all options.
-    if (!is.null(dec_types)) {
+    if (!is.null(dec_type)) {
         stopifnot("Some columns in dec_type are invalid" = all(dec_type %in% DECTYPE_CODES))
     } else {
         dec_type <- DECTYPE_CODES
@@ -56,6 +56,6 @@ fetch_asycuda_rmu <- function(db_con, cols = NULL, reg_date = NULL, dec_type = N
     }
 
     # Retrieve Records Matching RMU Query
-    rmu <- dbGetQuery(db_con, statement = rmu_query)
+    rmu <- DBI::dbGetQuery(db_con, statement = rmu_query)
 
 }

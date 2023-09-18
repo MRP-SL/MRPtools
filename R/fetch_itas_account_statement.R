@@ -3,7 +3,7 @@
 #' @param db_con An active DBIConnection object, often created by 'establish_db_connection()'
 #' @param tax_type (Optional) A vector or list of Tax Types to filter on. Options are: c("Excise Tax", "Foreign Travel Tax", "Rental Income Tax", "Personal Income Tax", "Suspense Account", "Goods and Services", "Pay As You Earn", "Withholding Tax", "Payroll Tax", "Capital Gains Tax", "Company Income Tax")
 #' @param transaction_date (Optional) A vector or list where the first element is the start-date and second element the end-date
-#' @return A data.frame containing all the matching observations in the Data Warehouse
+#' @return A data.frame containing all the matching observations in the Data Warehouse.
 #' @export
 #'
 #' @examples
