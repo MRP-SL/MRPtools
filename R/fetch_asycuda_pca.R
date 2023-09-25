@@ -9,23 +9,35 @@
 #' @export
 #'
 #' @examples
+#' # Establish database connection
+#' NRADWH <- establish_db_connection(database = "NRADWH")
+#'
+#' # Fetch Import-Export results for 2022
+#' fetch_asycuda_pca(db_con = NRADWH, reg_date = c("2022-01-01", "2022-12-31"))
+#'
+#' # Fetch results for IM4 and IM7, and only the Office Code and Registration Date
+#' fetch_asycuda_pca(db_con = NRADWH, cols = c("OFFICECODE", "REGDATE"), dec_type = c("IM4", "IM7"))
+#'
+#' # Fetch all results since the beginning of time
+#' fetch_asycuda_pca(db_con = NRADWH)
+#'
 fetch_asycuda_pca <- function(db_con, cols = NULL, reg_date = NULL, dec_type = NULL) {
+
+    # DECTYPE_CODES and PCA_INCLUDE are defined in 'data-raw'
 
     # Validate database object
     stopifnot("Object supplied as db_con is not an active connection" = DBI::dbIsValid(db_con))
 
-    # Validate user-supplied cols, otherwise set 'cols' to a default value
-    if (!is.null(cols)) {
-        stopifnot(all(cols %in% ASYCUDA_COLS["PCA_COLS"]))
+    # Validate user-supplied Declaration Types, otherwise use all options.
+    if (!is.null(dec_type)) {
+        stopifnot(all(dec_type %in% MRPtools::DECTYPE_CODES))
     } else {
-        cols <- ASYCUDA_INCLUDE["PCA_INCLUDE"]
+        dec_type <- MRPtools::DECTYPE_CODES
     }
 
-    # Validate user-supplied dec_types, otherwise use all options.
-    if (!is.null(dec_type)) {
-        stopifnot(all(dec_type %in% DECTYPE_CODES))
-    } else {
-        dec_type <- DECTYPE_CODES
+    # Set cols to a default value if none are supplied
+    if (is.null(cols)) {
+        cols <- MRPtools:::PCA_INCLUDE
     }
 
     if (!is.null(reg_date)) {

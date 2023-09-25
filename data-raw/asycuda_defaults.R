@@ -1,8 +1,15 @@
-## code to prepare `ASYCUDA_COLS` dataset goes here
+# This script creates a list of default columns that the fetch_asycuda...
+# functions use for the default columns, in the event that no columns are listed.
 
-usethis::use_data(ASYCUDA_COLS, overwrite = TRUE)
+# Maintained by: Mohamed Ali Bah (MRP), Jordan Imahori (ODI Fellow)
+# Contact: mahbah@nra.gov.sl; jordan.imahori@gmail.com
 
-IE_COLS = c('OFFICECODE', 'REGNBER', 'REGDATE', 'DECTYPE', 'DECREF',
+
+# To update the default columns, add/remove column names here, ensuring that
+# the names match exactly those in the data warehouse.
+
+
+IE_INCLUDE = c('OFFICECODE', 'REGNBER', 'REGDATE', 'DECTYPE', 'DECREF',
                'ASMTNBR', 'RCPTNBR', 'RCPTDATE', 'MANIFESTNBR', 'CONSIGNEETIN',
                'CONSIGNEENAME', 'AGENTTIN', 'AGENTNAME', 'CHANNEL', 'MODEOFPAYMENT',
                'ITEM', 'COMMODITYCODE',  'PRODUCTDESC', 'COMMERCIALDESC', 'CPCEXT',
@@ -25,7 +32,7 @@ IE_COLS = c('OFFICECODE', 'REGNBER', 'REGDATE', 'DECTYPE', 'DECREF',
                'REROUTETOGREENDATE', 'SELECTIVTITYDATE', 'QUERYDATE',
                'REALLOCATEDATE', 'CURRENT_STATUS')
 
-PCA_COLS = c('OFFICECODE', 'REGNBER', 'REGDATE', 'DECTYPE', 'DECREF', 'ASMTNBR',
+PCA_INCLUDE = c('OFFICECODE', 'REGNBER', 'REGDATE', 'DECTYPE', 'DECREF', 'ASMTNBR',
                 'ASMTDATE', 'RCPTNBR', 'RCPTDATE', 'MANIFESTNBR', 'CONSIGNEECODE',
                 'CONSIGNEENAME', 'AGENTTIN', 'AGENTNAME', 'EXPORTERCODE',
                 'EXPORTERNAME', 'CHANNEL', 'SECTION', 'ITEM', 'COMMODITYCODE',
@@ -43,7 +50,7 @@ PCA_COLS = c('OFFICECODE', 'REGNBER', 'REGDATE', 'DECTYPE', 'DECREF', 'ASMTNBR',
                 'IMPORTEXCISE', 'IMPORTEXCISE_RATE', 'INFRA_DEVT_FUND',
                 'INFRA_DEVT_FUND_RATE')
 
-RMU_COLS = c('OFFICECODE', 'REGNUMBER1', 'REGDATE', 'DECTYPE', 'DECREF', 'CONSIGNEETIN',
+RMU_INCLUDE = c('OFFICECODE', 'REGNUMBER1', 'REGDATE', 'DECTYPE', 'DECREF', 'CONSIGNEETIN',
                 'DECLARANTTIN', 'DECLARANTNAME', 'CONSIGNEENAME', 'CONTAINERIZED',
                 'CONTAINERTOTAL', 'TOTALTAXES', 'ADDITIONALTAXES', 'ENTRYSTATUS',
                 'COMMODITYCODE', 'COMMODITYDESC', 'PREVIOUSDOC', 'PKGCODE', 'PKGNAME', 'COUNTRYOFORIGIN',
@@ -51,7 +58,8 @@ RMU_COLS = c('OFFICECODE', 'REGNUMBER1', 'REGDATE', 'DECTYPE', 'DECREF', 'CONSIG
                 'ITEMAXAMOUNT', 'IMPORTDUTY', 'ECOWASLEVY', 'GST', 'WITHHOLDINGTAX', 'PROCESSINGFEES',
                 'PETROLEUMEXCISE', 'DOMESTICEXICEDUTY', 'ROADUSERCHARGE', 'IMPORTEXCISE')
 
-QA_COLS = c('DOCUMENTID', 'OFFICECODE', 'REGDATE', 'REGNUMBER', 'DECREF',
+
+QA_INCLUDE = c('DOCUMENTID', 'OFFICECODE', 'REGDATE', 'REGNUMBER', 'DECREF',
                'DECREFYEAR', 'ITEMS', 'DECLARANTTIN', 'DECLARANTNAME', 'CONSIGNEETIN',
                'CONSIGNEENAME', 'TOTALTAXES', 'ADDITIONALTAXES', 'SECTION',
                'CONTAINERIZED', 'CONTAINERTOTAL', 'CHANNEL', 'ENTRYSTATUS',
@@ -61,4 +69,6 @@ QA_COLS = c('DOCUMENTID', 'OFFICECODE', 'REGDATE', 'REGNUMBER', 'DECREF',
                'CONFORM', 'REVENUELOSS', 'PENALTYAMOUNT')
 
 
-ASYCUDA_COLS = list("IE_COLS" = IE_COLS, "PCA_COLS" = PCA_COLS, "RMU_COLS" = RMU_COLS, "QA_COLS" = QA_COLS)
+# Save these as internal data
+usethis::use_data(IE_INCLUDE, PCA_INCLUDE, RMU_INCLUDE, QA_INCLUDE,
+                  internal = TRUE, overwrite = TRUE)

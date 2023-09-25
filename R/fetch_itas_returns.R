@@ -23,10 +23,9 @@ fetch_itas_returns <- function(db_con, document_type = NULL, tax_period = NULL, 
 
     # Set 'document_type' to all permitted values if user supplies none
     if (!is.null(document_type)) {
-
         stopifnot("Some Document Types invalid. Run '?get_itas_returns' for a list of valid types." =
                       all(document_type %in% document_type_options))
-
+    } else {
         document_type <- document_type_options
     }
 

@@ -8,15 +8,26 @@
 #' @export
 #'
 #' @examples
+#' # Establish database connection
+#' # NRADWH <- establish_db_connection(database = "NRADWH")
+#'
+#' # Fetch Import-Export results for 2022
+#' # fetch_asycuda_qa(db_con = NRADWH, reg_date = c("2022-01-01", "2022-12-31"))
+#'
+#' # Fetch results for IM4 and IM7, and only the Office Code and Fraud Name 1
+#' # fetch_asycuda_qa(db_con = NRADWH, cols = c("OFFICECODE", "FRAUDNAME1"), dec_type = c("IM4", "IM7"))
+#'
+#' # Fetch all results since the beginning of time
+#' # fetch_asycuda_qa(db_con = NRADWH)
+#'
 fetch_asycuda_qa <- function(db_con, cols = NULL, reg_date = NULL) {
 
     # Validate database object
     stopifnot("Object supplied as db_con is not an active connection" = DBI::dbIsValid(db_con))
 
-    if (!is.null(cols)) {
-        stopifnot("Some cols are not found in RMU table" = all(cols %in% ASYCUDA_COLS["QA_COLS"]))
-    } else {
-        cols <- ASYCUDA_INCLUDE["QA_INCLUDE"]
+    # Set cols to a default value (defined in 'data-raw') if none are supplied
+    if (is.null(cols)) {
+        cols <- MRPtools:::QA_INCLUDE
     }
 
     if (!is.null(reg_date)) {

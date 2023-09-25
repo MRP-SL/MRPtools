@@ -9,16 +9,26 @@
 #' @export
 #'
 #' @examples
+#' # Establish database connection
+#' NRADWH <- establish_db_connection(database = "NRADWH")
+#'
+#' # Fetch Import-Export results for 2022
+#' fetch_asycuda_import_export(db_con = NRADWH, reg_date = c("2022-01-01", "2022-12-31"))
+#'
+#' # Fetch results for IM4 and IM7, and only the CIF Value and Registration Date
+#' fetch_asycuda_import_export(db_con = NRADWH, cols = c("CIFVALUE", "REGDATE"), dec_type = c("IM4", "IM7"))
+#'
+#' # Fetch all results since the beginning of time
+#' fetch_asycuda_import_export(db_con = NRADWH)
+#'
 fetch_asycuda_import_export <- function(db_con, cols = NULL, reg_date, dec_type = NULL) {
 
     # Validate database object
     stopifnot("Object supplied as db_con is not an active connection" = DBI::dbIsValid(db_con))
 
-    # Validate user-supplied cols, otherwise set 'cols' to a default value
-    if (!is.null(cols)) {
-        stopifnot(all(cols %in% ASYCUDA_COLS["IE_COLS"]))
-    } else {
-        cols <- ASYCUDA_INCLUDE["IE_INCLUDE"]
+    # Set cols to a default value (defined in 'data-raw') if none are supplied
+    if (is.null(cols)) {
+        cols <- MRPtools:::IE_INCLUDE
     }
 
     if (!is.null(reg_date)) {
@@ -31,7 +41,7 @@ fetch_asycuda_import_export <- function(db_con, cols = NULL, reg_date, dec_type 
     # Construct our query based on user-supplied arguments
     if (!is.null(dec_type)) {
 
-        stopifnot(all(dec_type %in% DECTYPE_CODES))
+        stopifnot(all(dec_type %in% MRPtools::DECTYPE_CODES))
         ie_query <- glue::glue_sql('SELECT {`cols`*}
                                    FROM "NRADWH"."ASY_IMP_EXP_STATS"
                                    WHERE "REGDATE" BETWEEN {start_date} AND {end_date}

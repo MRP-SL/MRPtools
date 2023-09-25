@@ -21,3 +21,17 @@ A data.frame containing all the matching observations in the Data Warehouse.
 \description{
 fetch_asycuda_pca
 }
+\examples{
+# Establish database connection
+# NRADWH <- establish_db_connection(database = "NRADWH")
+
+# Fetch Import-Export results for 2022
+# fetch_asycuda_pca(db_con = NRADWH, reg_date = c("2022-01-01", "2022-12-31"))
+
+# Fetch results for IM4 and IM7, and only the Office Code and Registration Date
+# fetch_asycuda_pca(db_con = NRADWH, cols = c("OFFICECODE", "REGDATE"), dec_type = c("IM4", "IM7"))
+
+# Fetch all results since the beginning of time
+# fetch_asycuda_pca(db_con = NRADWH)
+
+}
