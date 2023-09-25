@@ -13,4 +13,6 @@ db_batched_query <- function(db_con, query, batch_size) {
         print(paste("Retrieved Batch:", i))
         i <- i + 1
     }
+
+    return(result)
 }
