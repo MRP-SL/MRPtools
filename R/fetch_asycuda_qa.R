@@ -27,7 +27,7 @@ fetch_asycuda_qa <- function(db_con, cols = NULL, reg_date = NULL) {
 
     # Set cols to a default value (defined in 'data-raw') if none are supplied
     if (is.null(cols)) {
-        cols <- MRPtools:::QA_INCLUDE
+        cols <- QA_INCLUDE
     }
 
     if (!is.null(reg_date)) {

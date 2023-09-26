@@ -30,7 +30,7 @@ fetch_asycuda_rmu <- function(db_con, cols = NULL, reg_date = NULL, dec_type = N
 
     # Set cols to a default value if none are supplied
     if (is.null(cols)) {
-        cols <- MRPtools:::RMU_INCLUDE
+        cols <- RMU_INCLUDE
     }
 
     if (!is.null(reg_date)) {
@@ -41,15 +41,8 @@ fetch_asycuda_rmu <- function(db_con, cols = NULL, reg_date = NULL, dec_type = N
         end_date <- lubridate::date(reg_date[2])
     }
 
-    # Validate user-supplied Declaration Types, otherwise set it to all options.
-    if (!is.null(dec_type)) {
-        stopifnot("Some columns in dec_type are invalid" = all(dec_type %in% MRPtools::DECTYPE_CODES))
-    } else {
-        dec_type <- MRPtools::DECTYPE_CODES
-    }
-
     # Build Risk Management Unit Query Based on Parameters
-    if (!is.null(reg_date)) {
+    if (!is.null(reg_date) & !is.null(dec_type)) {
         rmu_query <- glue::glue_sql(
             'SELECT {`cols`*}
             FROM "NRADWH"."ASY_RMU_IMPORT_EXPORT_STATS"
@@ -57,11 +50,24 @@ fetch_asycuda_rmu <- function(db_con, cols = NULL, reg_date = NULL, dec_type = N
             AND "DECTYPE" = ({dec_type*})',
             .con = db_con
         )
-    } else {
+    } else if (!is.null(dec_type)) {
         rmu_query <- glue::glue_sql(
             'SELECT {`cols`*}
             FROM "NRADWH"."ASY_RMU_IMPORT_EXPORT_STATS"
             WHERE "DECTYPE" IN ({dec_type*})',
+            .con = db_con
+        )
+    } else if (!is.null(reg_date)) {
+        rmu_query <- glue::glue_sql(
+            'SELECT {`cols`*}
+            FROM "NRADWH"."ASY_RMU_IMPORT_EXPORT_STATS"
+            WHERE "REGDATE" BETWEEN {start_date} AND {end_date}',
+            .con = db_con
+        )
+    } else {
+        rmu_query <- glue::glue_sql(
+            'SELECT {`cols`*}
+            FROM "NRADWH"."ASY_RMU_IMPORT_EXPORT_STATS"',
             .con = db_con
         )
     }

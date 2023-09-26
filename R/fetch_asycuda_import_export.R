@@ -21,14 +21,14 @@
 #' # Fetch all results since the beginning of time
 #' fetch_asycuda_import_export(db_con = NRADWH)
 #'
-fetch_asycuda_import_export <- function(db_con, cols = NULL, reg_date, dec_type = NULL) {
+fetch_asycuda_import_export <- function(db_con, cols = NULL, reg_date = NULL, dec_type = NULL) {
 
     # Validate database object
     stopifnot("Object supplied as db_con is not an active connection" = DBI::dbIsValid(db_con))
 
     # Set cols to a default value (defined in 'data-raw') if none are supplied
     if (is.null(cols)) {
-        cols <- MRPtools:::IE_INCLUDE
+        cols <- IE_INCLUDE
     }
 
     if (!is.null(reg_date)) {
@@ -39,23 +39,32 @@ fetch_asycuda_import_export <- function(db_con, cols = NULL, reg_date, dec_type 
     }
 
     # Construct our query based on user-supplied arguments
-    if (!is.null(dec_type)) {
-
-        stopifnot(all(dec_type %in% MRPtools::DECTYPE_CODES))
+    if (!is.null(reg_date)) {
         ie_query <- glue::glue_sql('SELECT {`cols`*}
                                    FROM "NRADWH"."ASY_IMP_EXP_STATS"
                                    WHERE "REGDATE" BETWEEN {start_date} AND {end_date}
                                    AND "DECTYPE" IN ({dec_type*})',
                                    .con = db_con
         )
-    } else {
+    } else if (!is.null(dec_type)) {
+        ie_query <- glue::glue_sql('SELECT {`cols`*}
+                                   FROM "NRADWH"."ASY_IMP_EXP_STATS"
+                                   WHERE "DECTYPE" IN ({dec_type*})',
+                                   .con = db_con
+        )
+    } else if (!is.null(reg_date)) {
         ie_query <- glue::glue_sql('SELECT {`cols`*}
                                    FROM "NRADWH"."ASY_IMP_EXP_STATS"
                                    WHERE "REGDATE" BETWEEN {start_date} AND {end_date}',
                                    .con = db_con
         )
+    } else {
+        ie_query <- glue::glue_sql('SELECT {`cols`*}
+                                   FROM "NRADWH"."ASY_IMP_EXP_STATS"',
+                                   .con = db_con
+        )
     }
 
-    import_export <- db_batched_query(db_con, ie_query, 10000)
+    import_export <- DBI::dbGetQuery(db_con, statement = ie_query)
 
 }

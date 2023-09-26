@@ -31,13 +31,11 @@ fetch_asycuda_pca <- function(db_con, cols = NULL, reg_date = NULL, dec_type = N
     # Validate user-supplied Declaration Types, otherwise use all options.
     if (!is.null(dec_type)) {
         stopifnot(all(dec_type %in% MRPtools::DECTYPE_CODES))
-    } else {
-        dec_type <- MRPtools::DECTYPE_CODES
     }
 
     # Set cols to a default value if none are supplied
     if (is.null(cols)) {
-        cols <- MRPtools:::PCA_INCLUDE
+        cols <- PCA_INCLUDE
     }
 
     if (!is.null(reg_date)) {
@@ -48,7 +46,7 @@ fetch_asycuda_pca <- function(db_con, cols = NULL, reg_date = NULL, dec_type = N
     }
 
     # Build Post-Clearance Audit Query Based on Parameters
-    if (!is.null(reg_date)) {
+    if (!is.null(reg_date) & !is.null(dec_type)) {
         pca_query <- glue::glue_sql(
             'SELECT {`cols`*}
             FROM "NRADWH"."ASY_POST_CLEARANCE_AUDIT"
@@ -56,11 +54,24 @@ fetch_asycuda_pca <- function(db_con, cols = NULL, reg_date = NULL, dec_type = N
             AND "DECTYPE" IN ({dec_type*})',
             .con = db_con
         )
-    } else {
+    } else if (!is.null(reg_date)) {
         pca_query <- glue::glue_sql(
             'SELECT {`cols`*}
             FROM "NRADWH"."ASY_POST_CLEARANCE_AUDIT"
-            WHERE "DECTYPE" IN ({dec_type})',
+            WHERE "REGDATE" BETWEEN {start_date} AND {end_date}',
+            .con = db_con
+        )
+    } else if (!is.null(dec_type)) {
+        pca_query <- glue::glue_sql(
+            'SELECT {`cols`*}
+            FROM "NRADWH"."ASY_POST_CLEARANCE_AUDIT"
+            WHERE "DECTYPE" IN ({dec_type*})',
+            .con = db_con
+        )
+    } else {
+        pca_query <- glue::glue_sql(
+            'SELECT {`cols`*}
+            FROM "NRADWH"."ASY_POST_CLEARANCE_AUDIT"',
             .con = db_con
         )
     }
