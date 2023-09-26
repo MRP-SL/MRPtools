@@ -68,5 +68,24 @@ MRPtools also provides utilities for connecting to databases, including the NRA'
 
 ```
 # Connect to the Data Warehouse
-...tbd...
+
+# The first time, you need to save the db configurations and credentials.
+# This will prompt you to enter your username and password, which is stored in local secure storage.
+setup_database_connection(database = "NRADWH", host = <ip_address>, driver = <driver>)
+
+# Each time you start R, you'll need to open a connection with the DWH.
+NRADWH <- establish_db_connection(database = "NRADWH")
+
+# Using this connection object you can then make queries using specific functions with a fetch_ prefix
+returns_q3 <- fetch_itas_returns(NRADWH, tax_period = c("2022-01-01", "2022-12-31"))
+
+# See the documentation for details 
+?fetch_itas_returns
+
+# Under the hood, establish_db_connection uses DBI::dbConnect(). This means that 
+# you can also use functions from DBI to run queries. (See package for details).
+
+# For example, to execute arbitrary SQL, run:
+example <- DBI::dbGetQuery(NRADWH, "SELECT * FROM <table_name> WHERE <condition> ...)
+
 ```
