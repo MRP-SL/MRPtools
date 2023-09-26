@@ -1,10 +1,10 @@
 #' Retrieve ITAS Payments from the Data Warehouse
 #'
-#' This helper function constructs and executes a query of the DAILY_PAYMENT_REPORT table joined with REGISTERED_TAXPAYERS_VW to obtain the office code table.
+#' This helper function constructs and executes a query of the `DAILY_PAYMENT_REPORT` table joined with `REGISTERED_TAXPAYERS_VW` to obtain the office code table.
 #'
-#' @param db_con An active DBIConnection object, often created by 'establish_db_connection()'
+#' @param db_con An active `DBIConnection` object created by `establish_db_connection()` or `DBI::dbConnect`
 #' @param payment_date (Optional) A vector or list where the first element is the start-date and second element the end-date
-#' @param office_code (Optional) A vector or list of Office Codes to filter on. Options are: c("BOSTO", "FTWSTO3", "FTESTO", "KESTO", "SLMTO", "SLLTO", "MSTO", "CIB", "EIRU", "KNSTO", "FTCSTO", "WITO")
+#' @param office_code (Optional) A vector or list of Office Codes to filter on. Options are given by `MRPtools::TAX_OFFICE_CODES`
 #'
 #' @return A data.frame containing all the matching observations in the Data Warehouse
 #' @export
@@ -17,7 +17,7 @@
 #' # Retrieve All Payments to Extractive Industries Revenue Unit in 2022
 #' eiru_2022 <- get_itas_payments(NRADWH, payment_date = c("2022-01-01", "2022-12-31"), office_code = "EIRU")
 #'
-get_itas_payments <- function(db_con, payment_date = NULL, office_code = NULL) {
+fetch_itas_payments <- function(db_con, payment_date = NULL, office_code = NULL) {
 
     # Try to check validity of user-supplied parameters
     stopifnot("Database connection is invalid." = DBI::dbIsValid(db_con))
@@ -46,7 +46,7 @@ get_itas_payments <- function(db_con, payment_date = NULL, office_code = NULL) {
                                          FROM "NRADWH"."DAILY_PAYMENT_REPORT_VW" AS payments
                                          INNER JOIN
                                             (SELECT "TIN", "OFFICE" FROM "NRADWH"."REGISTERED_TAXPAYERS_VW"
-                                            WHERE "OFFICE" IN ({office_code})) AS office
+                                            WHERE "OFFICE" IN ({office_code*})) AS office
                                             ON "payments"."TIN" = "office"."TIN"
                                          WHERE "payments"."PAYMENT_DATE" BETWEEN {start_date} AND {end_date};',
                                              .con = db_con
@@ -71,7 +71,7 @@ get_itas_payments <- function(db_con, payment_date = NULL, office_code = NULL) {
                                          FROM "NRADWH"."DAILY_PAYMENT_REPORT_VW" AS payments
                                          INNER JOIN
                                             (SELECT "TIN", "OFFICE" FROM "NRADWH"."REGISTERED_TAXPAYERS_VW"
-                                            WHERE "OFFICE" IN ({office_code})) AS office
+                                            WHERE "OFFICE" IN ({office_code*})) AS office
                                             ON "payments"."TIN" = "office"."TIN";',
                                          .con = db_con
         )

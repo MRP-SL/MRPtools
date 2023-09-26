@@ -1,8 +1,8 @@
 #' Retrieve ASYCUDA Risk Management Unit Records from the Data Warehouse
 #'
-#' This helper function constructs and executes a query of the ASY_RMU_IMPORT_EXPORT_STATS table in the Data Warehouse based on the supplied arguments.
+#' This helper function constructs and executes a query of the `ASY_RMU_IMPORT_EXPORT_STATS` table in the Data Warehouse based on the supplied arguments.
 #'
-#' @param db_con An active DBIConnection object, often created by 'establish_db_connection()'
+#' @param db_con An active `DBIConnection` object created by `MRPtools::establish_db_connection()` or `DBI::dbConnect`
 #' @param cols (Optional) A vector or list of columns to include in the subset.
 #' @param reg_date (Optional) A vector or list where the first element is the start-date and second element the end-date.
 #' @param dec_type (Optional) A vector or list of Tax Types to filter on. Options are:
@@ -27,20 +27,24 @@ fetch_asycuda_rmu <- function(db_con, cols = NULL, reg_date = NULL, dec_type = N
 
     # DECTYPE_CODES and RMU_INCLUDE are defined in 'data-raw'
 
-    # Validate database object
+    # Validate user-supplied objects
     stopifnot("Object supplied as db_con is not an active connection" = DBI::dbIsValid(db_con))
 
-    # Set cols to a default value if none are supplied
-    if (is.null(cols)) {
-        cols <- RMU_INCLUDE
+    if(!(all(dec_type %in% MRPtools::DECTYPE_CODES))) {
+        warning("Some DECTYPE codes are invalid and will be ignored.")
     }
 
     if (!is.null(reg_date)) {
-        # Validate reg_date
+        # Confirm only two values supplied. Take the first as start and second as end.
         stopifnot("reg_date must be a vector of length 2" = length(reg_date) == 2)
 
         start_date <- lubridate::date(reg_date[1])
         end_date <- lubridate::date(reg_date[2])
+    }
+
+    # Set cols to a default value if none are supplied
+    if (is.null(cols)) {
+        cols <- RMU_INCLUDE
     }
 
     # Build Risk Management Unit Query Based on Parameters

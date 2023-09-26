@@ -12,9 +12,9 @@ fetch_itas_returns(
 )
 }
 \arguments{
-\item{db_con}{An active DBIConnection object, often created by 'establish_db_connection()'}
+\item{db_con}{An active \code{DBIConnection} object created by \code{establish_db_connection()} or \code{DBI::dbConnect}}
 
-\item{document_type}{A vector or list of Document Types to filter on. Options are given by MRPtools::ITAS_RETURN_TYPES.}
+\item{document_type}{A vector or list of Document Types to filter on. Options are given by \code{MRPtools::ITAS_RETURN_TYPES}.}
 
 \item{tax_period}{(Optional) A vector or list where the first element is the start-date and second element the end-date}
 
@@ -24,7 +24,7 @@ fetch_itas_returns(
 A data.frame containing all the matching observations in the Data Warehouse
 }
 \description{
-This helper function constructs and executes a query of the NON_COMPLIANT_TAXPAYERS_VW table in the Data Warehouse based on the supplied arguments.
+This helper function constructs and executes a query of the \code{NON_COMPLIANT_TAXPAYERS_VW} table in the Data Warehouse based on the supplied arguments.
 }
 \examples{
 # Establish a database connection

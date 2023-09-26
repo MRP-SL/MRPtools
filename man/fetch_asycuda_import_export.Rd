@@ -12,7 +12,7 @@ fetch_asycuda_import_export(
 )
 }
 \arguments{
-\item{db_con}{An active DBIConnection object, often created by 'establish_db_connection()'}
+\item{db_con}{An active \code{DBIConnection} object created by \code{MRPtools::establish_db_connection()} or \code{DBI::dbConnect}}
 
 \item{cols}{(Optional) A vector or list of columns to include in the subset.}
 
@@ -24,7 +24,7 @@ fetch_asycuda_import_export(
 A data.frame containing all the matching observations in the Data Warehouse.
 }
 \description{
-This helper function constructs and executes a query of the ASY_IMP_EXP_STATS table in the Data Warehouse based on the supplied arguments.
+This helper function constructs and executes a query of the \code{ASY_IMP_EXP_STATS} table in the Data Warehouse based on the supplied arguments.
 }
 \examples{
 # Establish database connection

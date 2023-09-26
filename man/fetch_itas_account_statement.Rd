@@ -2,14 +2,14 @@
 % Please edit documentation in R/fetch_itas_account_statement.R
 \name{fetch_itas_account_statement}
 \alias{fetch_itas_account_statement}
-\title{Retrieve the ITAS Account Statement Table from the Data Warehouse}
+\title{Retrieve ITAS Account Statements from Data Warehouse}
 \usage{
 fetch_itas_account_statement(db_con, tax_type = NULL, transaction_date = NULL)
 }
 \arguments{
-\item{db_con}{An active DBIConnection object, often created by 'establish_db_connection()'}
+\item{db_con}{An active \code{DBIConnection} object created by \code{establish_db_connection()} or \code{DBI::dbConnect}}
 
-\item{tax_type}{(Optional) A vector or list of Tax Types to filter on. Options are given by MRPtools::ITAS_TAX_TYPES}
+\item{tax_type}{(Optional) A vector or list of Tax Types to filter on. Options are given by \code{MRPtools::ITAS_TAX_TYPES}}
 
 \item{transaction_date}{(Optional) A vector or list where the first element is the start-date and second element the end-date}
 }
@@ -17,7 +17,7 @@ fetch_itas_account_statement(db_con, tax_type = NULL, transaction_date = NULL)
 A data.frame containing all the matching observations in the Data Warehouse.
 }
 \description{
-This helper function constructs and executes a query of the ACCOUNT_STATEMENT_VW table in the Data Warehouse based on the supplied arguments.
+This helper function constructs and executes a query of the \code{ACCOUNT_STATEMENT_VW} table in the Data Warehouse based on the supplied arguments.
 }
 \examples{
 # Establish database connection

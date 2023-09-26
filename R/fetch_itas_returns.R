@@ -1,9 +1,9 @@
 #' Retrieve ITAS Returns from Data Warehouse
 #'
-#' This helper function constructs and executes a query of the NON_COMPLIANT_TAXPAYERS_VW table in the Data Warehouse based on the supplied arguments.
+#' This helper function constructs and executes a query of the `NON_COMPLIANT_TAXPAYERS_VW` table in the Data Warehouse based on the supplied arguments.
 #'
-#' @param db_con An active DBIConnection object, often created by 'establish_db_connection()'
-#' @param document_type A vector or list of Document Types to filter on. Options are given by MRPtools::ITAS_RETURN_TYPES.
+#' @param db_con An active `DBIConnection` object created by `establish_db_connection()` or `DBI::dbConnect`
+#' @param document_type A vector or list of Document Types to filter on. Options are given by `MRPtools::ITAS_RETURN_TYPES`.
 #' @param tax_period (Optional) A vector or list where the first element is the start-date and second element the end-date
 #' @param due_date (Optional) A vector or list where the first element is the start-date and second element the end-date
 #' @return A data.frame containing all the matching observations in the Data Warehouse

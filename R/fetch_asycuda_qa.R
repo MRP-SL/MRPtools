@@ -1,8 +1,8 @@
 #' Retrieve ASYCUDA Queries & Amendments Records from Data Warehouse
 #'
-#' This helper function constructs and executes a query of the ASY_QAA_MODIFIED_DECLARATIONS table in the Data Warehouse based on the supplied arguments.
+#' This helper function constructs and executes a query of the `ASY_QAA_MODIFIED_DECLARATIONS` table in the Data Warehouse based on the supplied arguments.
 #'
-#' @param db_con An active DBIConnection object, often created by 'establish_db_connection()'
+#' @param db_con An active `DBIConnection` object created by `MRPtools::establish_db_connection()` or `DBI::dbConnect`
 #' @param cols (Optional) A vector or list of columns to include in the subset.
 #' @param reg_date (Optional) A vector or list where the first element is the start-date and second element the end-date.
 #'
@@ -24,21 +24,21 @@
 #'
 fetch_asycuda_qa <- function(db_con, cols = NULL, reg_date = NULL) {
 
-    # Validate database object
+    # Validate user-supplied objects
     stopifnot("Object supplied as db_con is not an active connection" = DBI::dbIsValid(db_con))
 
-    # Set cols to a default value (defined in 'data-raw') if none are supplied
-    if (is.null(cols)) {
-        cols <- QA_INCLUDE
-    }
-
     if (!is.null(reg_date)) {
+        # Confirm only two values supplied. Take the first as start and second as end.
         stopifnot("reg_date must be a vector of length 2" = length(reg_date) == 2)
 
         start_date <- lubridate::date(reg_date[1])
         end_date <- lubridate::date(reg_date[2])
     }
 
+    # Set cols to a default value (defined in 'data-raw') if none are supplied
+    if (is.null(cols)) {
+        cols <- QA_INCLUDE
+    }
 
     # Build Queries & Amendments Query Based on Parameters
     if (!is.null(reg_date)) {
@@ -58,5 +58,4 @@ fetch_asycuda_qa <- function(db_con, cols = NULL, reg_date = NULL) {
 
     # Retrieve Records Matching Q&A Query
     qa <- DBI::dbGetQuery(db_con, statement = qa_query)
-
 }
