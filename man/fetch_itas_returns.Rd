@@ -14,7 +14,7 @@ fetch_itas_returns(
 \arguments{
 \item{db_con}{An active DBIConnection object, often created by 'establish_db_connection()'}
 
-\item{document_type}{A vector or list of Document Types to filter on. Options are: c("PITReturnFinal", "PITReturnProvisional", "GSTReturn", "WHTReturn", "FTTReturn", "CITReturnProvisional", "CITReturnFinal", "PAYEReturn", "PTReturn", "ETReturn")}
+\item{document_type}{A vector or list of Document Types to filter on. Options are given by MRPtools::ITAS_RETURN_TYPES.}
 
 \item{tax_period}{(Optional) A vector or list where the first element is the start-date and second element the end-date}
 
@@ -24,5 +24,16 @@ fetch_itas_returns(
 A data.frame containing all the matching observations in the Data Warehouse
 }
 \description{
-fetch_itas_returns
+#' This helper function constructs and executes a query of the NON_COMPLIANT_TAXPAYERS_VW table in the Data Warehouse based on the supplied arguments.
+}
+\examples{
+# Establish a database connection
+NRADWH <- establish_db_connection("NRADWH")
+
+# Retrieve all PIT Returns
+pit_returns <- fetch_itas_returns(NRADWH, document_type = c("PITReturnProvisional", "PITReturnFinal"))
+
+# Retrieve GST returns for Q3 2023
+gst_returns_q3 <- fetch_itas_returns(NRADWH, document_type = "Goods and Services", tax_period c("2023-07-01", "2023-09-30"))
+
 }

@@ -1,4 +1,6 @@
-#' Get ASYCUDA Risk Management Unit Data
+#' Retrieve ASYCUDA Risk Management Unit Records from the Data Warehouse
+#'
+#' This helper function constructs and executes a query of the ASY_RMU_IMPORT_EXPORT_STATS table in the Data Warehouse based on the supplied arguments.
 #'
 #' @param db_con An active DBIConnection object, often created by 'establish_db_connection()'
 #' @param cols (Optional) A vector or list of columns to include in the subset.

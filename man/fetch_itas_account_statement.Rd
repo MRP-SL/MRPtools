@@ -2,14 +2,14 @@
 % Please edit documentation in R/fetch_itas_account_statement.R
 \name{fetch_itas_account_statement}
 \alias{fetch_itas_account_statement}
-\title{fetch_itas_account_statement}
+\title{Retrieve the ITAS Account Statement Table from the Data Warehouse}
 \usage{
 fetch_itas_account_statement(db_con, tax_type = NULL, transaction_date = NULL)
 }
 \arguments{
 \item{db_con}{An active DBIConnection object, often created by 'establish_db_connection()'}
 
-\item{tax_type}{(Optional) A vector or list of Tax Types to filter on. Options are: c("Excise Tax", "Foreign Travel Tax", "Rental Income Tax", "Personal Income Tax", "Suspense Account", "Goods and Services", "Pay As You Earn", "Withholding Tax", "Payroll Tax", "Capital Gains Tax", "Company Income Tax")}
+\item{tax_type}{(Optional) A vector or list of Tax Types to filter on. Options are given by MRPtools::ITAS_TAX_TYPES}
 
 \item{transaction_date}{(Optional) A vector or list where the first element is the start-date and second element the end-date}
 }
@@ -17,5 +17,16 @@ fetch_itas_account_statement(db_con, tax_type = NULL, transaction_date = NULL)
 A data.frame containing all the matching observations in the Data Warehouse.
 }
 \description{
-fetch_itas_account_statement
+This helper function constructs and executes a query of the ACCOUNT_STATEMENT_VW table in the Data Warehouse based on the supplied arguments.
+}
+\examples{
+# Establish database connection
+NRADWH <- establish_db_connection("NRADWH")
+
+# Retrieve records for July 2022
+acc_july <- fetch_itas_account_statement(NRADWH, transaction_date = c("2022-07-01", "2022-07-31"))
+
+# Retrieve GST Payments
+acc_gst <- fetch_itas_account_statement(NRADWH, tax_type = "Goods and Services")
+
 }
