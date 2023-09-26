@@ -1,4 +1,4 @@
-#' Title
+#' Establish a Database Connection
 #'
 #' @param database The name of the database connection to establish. It must match the name given to 'setup_database_access()'
 #'
@@ -6,6 +6,16 @@
 #' @export
 #'
 #' @examples
+#' # Store credentials for the NRA Data Warehouse (note the IP address may change -- ask IT)
+#' # This only needs to be done once.
+#' setup_database_access(database = "NRADWH", host = "10.18.0.22", driver = RPostgres::Postgres())
+#' NRADWH <- establish_db_connection("NRADWH")
+#'
+#' # Subsequently, all you need to do to establish a connection is:
+#' NRADWH <- establish_db_connection("NRADWH")
+#'
+#' # Note: the database name in 'setup_database_acess' and 'establish_db_connection' must be the same
+#'
 establish_db_connection <- function(database = 'NRADWH') {
 
     stopifnot("Credentials not found. First run 'setup_database_access(...)'" =

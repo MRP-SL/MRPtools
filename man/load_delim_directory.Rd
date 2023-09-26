@@ -21,3 +21,11 @@ A tibble containing the merged observations from the selected sheets.
 \description{
 Read and append all delimited files in a directory. Use ... to pass additional arguments to readr::read_delim(), which is used under the hood.
 }
+\examples{
+# Load a directory of csv files
+ecr <- load_delim_directory("path/to/csvs/", delim = ",")
+
+# Load a directory of tab-delimited files
+ecr <- load_delim_directory("path/to/tsv/", delim = "\t")
+
+}

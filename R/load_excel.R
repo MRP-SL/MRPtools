@@ -12,11 +12,20 @@
 #' @export
 #'
 #' @examples
-load_excel <- function(path, sheets = "all", quiet = FALSE, ...) {
+#' # Load all sheets
+#' qa_2022 <- load_excel("queries_amendments_2022.xlsx")
+#'
+#' # Load only the sheet titled 'January' or 'February'
+#' qa_2022 <- load_excel("queries_amendments_2022.xlsx", sheets = c("January", "February"))
+#'
+#' # Load only the 4rd to 6th sheet, passing the 'guess_max' argument to readxl
+#' qa_q2_2022 <- load_excel("queries_amendments_2022.xlsx", sheets = 4:6, guess_max = 100000)
+#'
+load_excel <- function(path, sheets = NULL, quiet = FALSE, ...) {
 
     if (quiet) {
         withr::with_options(
-          new = list(readr.show_types = FALSE),
+          new = list(readr.show_col_types = FALSE),
           readr::type_convert(concat_excel_sheets(path = path, sheets = sheets, quiet = quiet, ...))
         )
     } else {

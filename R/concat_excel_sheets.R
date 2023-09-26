@@ -8,31 +8,33 @@
 #' @param ... (Optional) To pass additional arguments to read_excel().
 #'
 #' @return A tibble containing the merged observations from the selected sheets. All column data types are left as 'character' to facilitate when binding multiple Excel files.
-#' @export
 #'
-#' @examples
-concat_excel_sheets <- function(path, sheets = "all", quiet = FALSE, ...) {
+concat_excel_sheets <- function(path, sheets = NULL, quiet = FALSE, ...) {
 
     # Check if file exists and sheets param is permissible
     stopifnot("file does not exist" = file.exists(path))
-    stopifnot("'sheets' must be a character vector of names or a numeric vector of indices" = is.character(sheets) | is.numeric(sheets))
+
+    # Get names of every sheet in the file
+    file_sheets <- readxl::excel_sheets(path)
 
     # Check if user-supplied sheets exist in the Excel file
-    if (!identical(sheets, "all") & is.character(sheets)) {
-        file_sheets = readxl::excel_sheets(path)
+    if (is.null(sheets)) {
+        # We use all sheets by default
+        sheets <- file_sheets
+    } else if (is.character(sheets)) {
+        # Ensure that all names in 'sheets' appear in Excel file
         stopifnot("at least one supplied sheet name not found in Excel file" =
                       all(sheets %in% file_sheets))
     } else if (is.numeric(sheets)) {
+        # Replace numeric values with character names of sheets
         stopifnot("numeric index contains value large than highest-numbered Excel sheet" =
-                      max(sheets) <= length(readxl::excel_sheets(path)))
+                      max(sheets) <= length(file_sheets))
+        sheets <- file_sheets[sheets]
+    } else {
+        # If none of the above, the supplied value for sheets is not supported
+        stop("Unsupported value for 'sheets'")
     }
 
-    # We loop over all sheets if user specifies "all"
-    if (identical(sheets, "all")) {
-        sheets <- readxl::excel_sheets(path)
-    } else if (is.numeric(sheets)) {
-        sheets <- readxl::excel_sheets(path)[sheets]
-    }
 
     if (!quiet) {print(paste("Loading:", path))}
 
@@ -41,6 +43,8 @@ concat_excel_sheets <- function(path, sheets = "all", quiet = FALSE, ...) {
             if(!quiet) {print(paste("...", sheet, sep = ""))}
             output <- dplyr::bind_rows(
                 output,
+                # Set to character for ease of joining.
+                # Reading directly as character means dates interpreted weirdly.
                 purrr::map_df(readxl::read_excel(path = path, sheet = sheet, ...), as.character)
             )
         } else {

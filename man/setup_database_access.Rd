@@ -2,7 +2,7 @@
 % Please edit documentation in R/setup_database_access.R
 \name{setup_database_access}
 \alias{setup_database_access}
-\title{setup_database_access}
+\title{Set-up Access to NRA Databases}
 \usage{
 setup_database_access(database, host, driver, port = NULL)
 }
@@ -19,5 +19,17 @@ setup_database_access(database, host, driver, port = NULL)
 Stores the parameters required for configuring a database connection using keyring::key_set()
 }
 \description{
-setup_database_access
+This function allows you to store configurations and credentials for databases using your OS's native secure key storage. When run, it will prompt you to enter your username and password. It also stores details essential for connecting to the database, like the database name, database provider (typically PostgreSQL or MySQL), IP address, and a port number.
+}
+\examples{
+# Store credentials for the NRA Data Warehouse (note the IP address may change -- ask IT)
+# This only needs to be done once.
+setup_database_access(database = "NRADWH", host = "10.18.0.22", driver = RPostgres::Postgres())
+NRADWH <- establish_db_connection("NRADWH")
+
+# Subsequently, all you need to do to establish a connection is:
+NRADWH <- establish_db_connection("NRADWH")
+
+# Note: the database name in 'setup_database_acess' and 'establish_db_connection' must be the same
+
 }

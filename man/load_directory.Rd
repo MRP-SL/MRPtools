@@ -2,23 +2,16 @@
 % Please edit documentation in R/load_directory.R
 \name{load_directory}
 \alias{load_directory}
-\title{load_directory}
+\title{Load All Files in a Directory}
 \usage{
-load_directory(
-  dir,
-  type = "excel",
-  quiet = FALSE,
-  sheets = "all",
-  delim = NULL,
-  ...
-)
+load_directory(dir, type, quiet = FALSE, sheets = NULL, delim = NULL, ...)
 }
 \arguments{
 \item{dir}{The directory to load.}
 
 \item{type}{Type of files within the supplied directory. Either "excel" or "csv".}
 
-\item{quiet}{Silences printing progress to the console.}
+\item{quiet}{(Optional) Silences printing progress to the console.}
 
 \item{sheets}{(Optional) A numeric vector of indices or a character vector of names for the sheets to use.}
 
@@ -30,5 +23,13 @@ load_directory(
 A tibble containing the merged observations from the selected files and sheets.
 }
 \description{
-Read and append all files of type 'excel', 'csv', or 'delim'. It uses readr::read_csv() or readxl::read_excel() under the hood. Optionally, if 'type' is "Excel", you can specify which sheets should be loaded. Use ... to pass additional arguments to 'readr' or 'readxl'. Type 'csv' is a convenience wrapper and calls the same readr::read_delim() as does type 'delim'. Using type 'delim' requires that you additionally specify a value for delim. When specifying the type as 'delim', any file format that can be parsed by readr::read_delim() is accepted.
+Read and append all files of type 'excel', 'csv', or 'delim'. It uses readr::read_csv() or readxl::read_excel() under the hood. Optionally, if 'type' is "Excel", you can specify which sheets should be loaded. Use ... to pass additional arguments to 'readr' or 'readxl'. Type 'csv' is a convenience wrapper and calls the same readr::read_delim() as does type 'delim'. Using type 'delim' requires that you additionally specify a value for delim. When specifying the type as 'delim', any file format that can be parsed by readr::read_delim() is accepted. See also MRPtools::load_excel() and MRPtools::load_delim_directory().
+}
+\examples{
+# Load all csv files in a directory
+exports <- load_directory("path/to/csv_files/", type = "csv")
+
+# Load all Excel files in a directory
+exports <- load_directory("path/to/excel_files/", type = "excel")
+
 }

@@ -4,7 +4,7 @@
 \alias{concat_excel_sheets}
 \title{concat_excel_sheets}
 \usage{
-concat_excel_sheets(path, sheets = "all", quiet = FALSE, ...)
+concat_excel_sheets(path, sheets = NULL, quiet = FALSE, ...)
 }
 \arguments{
 \item{path}{Path to the .xls or .xlsx document.}

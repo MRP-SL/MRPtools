@@ -11,6 +11,12 @@
 #' @export
 #'
 #' @examples
+#' # Load a directory of csv files
+#' ecr <- load_delim_directory("path/to/csvs/", delim = ",")
+#'
+#' # Load a directory of tab-delimited files
+#' ecr <- load_delim_directory("path/to/tsv/", delim = "\t")
+#'
 load_delim_directory <- function(dir, delim, quiet = FALSE, ...) {
 
     stopifnot("the supplied directory does not exist" = dir.exists(dir))

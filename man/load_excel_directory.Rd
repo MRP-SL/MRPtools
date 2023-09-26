@@ -4,20 +4,28 @@
 \alias{load_excel_directory}
 \title{load_excel_directory}
 \usage{
-load_excel_directory(dir, sheets = "all", quiet = FALSE, ...)
+load_excel_directory(dir, sheets = NULL, quiet = FALSE, ...)
 }
 \arguments{
 \item{dir}{The directory in which to load all files.}
 
-\item{sheets}{A numeric vector of indices or a character vector of names for the sheets to use.}
+\item{sheets}{(Optional) A numeric vector of indices or a character vector of names for the sheets to use. If not specified, all sheets will be loaded.}
 
-\item{quiet}{Silences printing progress to the console.}
+\item{quiet}{(Optional) Silences printing progress to the console.}
 
-\item{...}{(Optional) To pass additional arguments to read_excel().}
+\item{...}{(Optional) To pass additional arguments to readxl::read_excel().}
 }
 \value{
 A tibble containing the merged observations from the selected sheets.
 }
 \description{
 Read and append all Excel files in a directory. Optionally, you can specify which sheets should be loaded using a vector of indices of sheet names. Use ... to pass additional arguments to readxl::read_excel(), which is used under the hood.
+}
+\examples{
+# Load all files in a directory, and all sheets in each Excel file
+excel_files <- load_excel_directory("path/to/excel_files/")
+
+# Now only loading the first sheet
+excel_files <- load_excel_directory("path/to/excel_files", sheets = 1)
+
 }
