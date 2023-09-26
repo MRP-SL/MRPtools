@@ -2,7 +2,7 @@
 % Please edit documentation in R/fetch_asycuda_rmu.R
 \name{fetch_asycuda_rmu}
 \alias{fetch_asycuda_rmu}
-\title{Get ASYCUDA Risk Management Unit Data}
+\title{Retrieve ASYCUDA Risk Management Unit Records from the Data Warehouse}
 \usage{
 fetch_asycuda_rmu(db_con, cols = NULL, reg_date = NULL, dec_type = NULL)
 }
@@ -19,7 +19,7 @@ fetch_asycuda_rmu(db_con, cols = NULL, reg_date = NULL, dec_type = NULL)
 A data.frame containing all the matching observations in the Data Warehouse.
 }
 \description{
-Get ASYCUDA Risk Management Unit Data
+This helper function constructs and executes a query of the ASY_RMU_IMPORT_EXPORT_STATS table in the Data Warehouse based on the supplied arguments.
 }
 \examples{
 # Establish database connection

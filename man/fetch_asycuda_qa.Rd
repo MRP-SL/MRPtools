@@ -2,7 +2,7 @@
 % Please edit documentation in R/fetch_asycuda_qa.R
 \name{fetch_asycuda_qa}
 \alias{fetch_asycuda_qa}
-\title{Get ASYCUDA Queries & Amendments Data}
+\title{Retrieve ASYCUDA Queries & Amendments Records from Data Warehouse}
 \usage{
 fetch_asycuda_qa(db_con, cols = NULL, reg_date = NULL)
 }
@@ -17,7 +17,7 @@ fetch_asycuda_qa(db_con, cols = NULL, reg_date = NULL)
 A data.frame containing all the matching observations in the Data Warehouse.
 }
 \description{
-Get ASYCUDA Queries & Amendments Data
+This helper function constructs and executes a query of the ASY_QAA_MODIFIED_DECLARATIONS table in the Data Warehouse based on the supplied arguments.
 }
 \examples{
 # Establish database connection

@@ -1,19 +1,25 @@
-#' fetch_itas_returns
+#' Retrieve ITAS Returns from Data Warehouse
+#'
+#' This helper function constructs and executes a query of the NON_COMPLIANT_TAXPAYERS_VW table in the Data Warehouse based on the supplied arguments.
 #'
 #' @param db_con An active DBIConnection object, often created by 'establish_db_connection()'
-#' @param document_type A vector or list of Document Types to filter on. Options are: c("PITReturnFinal", "PITReturnProvisional", "GSTReturn", "WHTReturn", "FTTReturn", "CITReturnProvisional", "CITReturnFinal", "PAYEReturn", "PTReturn", "ETReturn")
+#' @param document_type A vector or list of Document Types to filter on. Options are given by MRPtools::ITAS_RETURN_TYPES.
 #' @param tax_period (Optional) A vector or list where the first element is the start-date and second element the end-date
 #' @param due_date (Optional) A vector or list where the first element is the start-date and second element the end-date
 #' @return A data.frame containing all the matching observations in the Data Warehouse
 #' @export
 #'
 #' @examples
+#' # Establish a database connection
+#' NRADWH <- establish_db_connection("NRADWH")
+#'
+#' # Retrieve all PIT Returns
+#' pit_returns <- fetch_itas_returns(NRADWH, document_type = c("PITReturnProvisional", "PITReturnFinal"))
+#'
+#'# Retrieve GST returns for Q3 2023
+#' gst_returns_q3 <- fetch_itas_returns(NRADWH, document_type = "Goods and Services", tax_period = c("2023-07-01", "2023-09-30"))
+#'
 fetch_itas_returns <- function(db_con, document_type = NULL, tax_period = NULL, due_date = NULL) {
-
-    # Legal values for 'document_type'
-    document_type_options <- c("PITReturnFinal", "PITReturnProvisional", "GSTReturn",
-                               "WHTReturn", "FTTReturn", "CITReturnProvisional",
-                               "CITReturnFinal", "PAYEReturn", "PTReturn", "ETReturn")
 
     # Stop if invalid inputs
     stopifnot("Database connection is invalid." = DBI::dbIsValid(db_con))
@@ -24,9 +30,9 @@ fetch_itas_returns <- function(db_con, document_type = NULL, tax_period = NULL, 
     # Set 'document_type' to all permitted values if user supplies none
     if (!is.null(document_type)) {
         stopifnot("Some Document Types invalid. Run '?get_itas_returns' for a list of valid types." =
-                      all(document_type %in% document_type_options))
+                      all(document_type %in% MRPtools::ITAS_RETURN_TYPES))
     } else {
-        document_type <- document_type_options
+        document_type <- MRPtools::ITAS_RETURN_TYPES
     }
 
     # Filter query by user supplied date, if one is provided

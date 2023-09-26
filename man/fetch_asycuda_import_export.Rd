@@ -2,7 +2,7 @@
 % Please edit documentation in R/fetch_asycuda_import_export.R
 \name{fetch_asycuda_import_export}
 \alias{fetch_asycuda_import_export}
-\title{Get ASYCUDA Import-Export Data}
+\title{Retrieve ASYCUDA Import-Export Records from Data Warehouse}
 \usage{
 fetch_asycuda_import_export(
   db_con,
@@ -24,7 +24,7 @@ fetch_asycuda_import_export(
 A data.frame containing all the matching observations in the Data Warehouse.
 }
 \description{
-Get ASYCUDA Import-Export Data
+This helper function constructs and executes a query of the ASY_IMP_EXP_STATS table in the Data Warehouse based on the supplied arguments.
 }
 \examples{
 # Establish database connection

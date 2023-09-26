@@ -2,7 +2,7 @@
 % Please edit documentation in R/fetch_asycuda_pca.R
 \name{fetch_asycuda_pca}
 \alias{fetch_asycuda_pca}
-\title{fetch_asycuda_pca}
+\title{Retrieve ASYCUDA Post-Clearance Audit Records from Data Warehouse}
 \usage{
 fetch_asycuda_pca(db_con, cols = NULL, reg_date = NULL, dec_type = NULL)
 }
@@ -19,7 +19,7 @@ fetch_asycuda_pca(db_con, cols = NULL, reg_date = NULL, dec_type = NULL)
 A data.frame containing all the matching observations in the Data Warehouse.
 }
 \description{
-fetch_asycuda_pca
+This helper function constructs and executes a query of the ASY_POST_CLEARANCE_AUDIT table in the Data Warehouse based on the supplied arguments.
 }
 \examples{
 # Establish database connection

@@ -1,4 +1,6 @@
-#' fetch_asycuda_pca
+#' Retrieve ASYCUDA Post-Clearance Audit Records from Data Warehouse
+#'
+#' This helper function constructs and executes a query of the ASY_POST_CLEARANCE_AUDIT table in the Data Warehouse based on the supplied arguments.
 #'
 #' @param db_con An active DBIConnection object, often created by 'establish_db_connection()'
 #' @param cols (Optional) A vector or list of columns to include in the subset.

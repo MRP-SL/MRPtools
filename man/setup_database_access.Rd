@@ -2,7 +2,7 @@
 % Please edit documentation in R/setup_database_access.R
 \name{setup_database_access}
 \alias{setup_database_access}
-\title{Set-up Access to NRA Databases}
+\title{Configure Access to NRA Databases}
 \usage{
 setup_database_access(database, host, driver, port = NULL)
 }

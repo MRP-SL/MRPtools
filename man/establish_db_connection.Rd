@@ -2,7 +2,7 @@
 % Please edit documentation in R/establish_db_connection.R
 \name{establish_db_connection}
 \alias{establish_db_connection}
-\title{Title}
+\title{Establish a Database Connection}
 \usage{
 establish_db_connection(database = "NRADWH")
 }
@@ -13,7 +13,7 @@ establish_db_connection(database = "NRADWH")
 An object returned by DBI::dbConnect() which can be used for making subsequent queries against the defined database.
 }
 \description{
-Title
+Establish a Database Connection
 }
 \examples{
 # Store credentials for the NRA Data Warehouse (note the IP address may change -- ask IT)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/fetch_itas_payments.R
 \name{get_itas_payments}
 \alias{get_itas_payments}
-\title{Title}
+\title{Retrieve ITAS Payments from the Data Warehouse}
 \usage{
 get_itas_payments(db_con, payment_date = NULL, office_code = NULL)
 }
@@ -17,5 +17,14 @@ get_itas_payments(db_con, payment_date = NULL, office_code = NULL)
 A data.frame containing all the matching observations in the Data Warehouse
 }
 \description{
-Title
+This helper function constructs and executes a query of the DAILY_PAYMENT_REPORT table joined with REGISTERED_TAXPAYERS_VW to obtain the office code table.
+}
+\examples{
+
+# Connect to NRA's data warehouse
+NRADWH <- establish_db_connection("NRADWH")
+
+# Retrieve All Payments to Extractive Industries Revenue Unit in 2022
+eiru_2022 <- get_itas_payments(NRADWH, payment_date = c("2022-01-01", "2022-12-31"), office_code = "EIRU")
+
 }

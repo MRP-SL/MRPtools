@@ -1,4 +1,6 @@
-#' Title
+#' Retrieve ITAS Payments from the Data Warehouse
+#'
+#' This helper function constructs and executes a query of the DAILY_PAYMENT_REPORT table joined with REGISTERED_TAXPAYERS_VW to obtain the office code table.
 #'
 #' @param db_con An active DBIConnection object, often created by 'establish_db_connection()'
 #' @param payment_date (Optional) A vector or list where the first element is the start-date and second element the end-date
@@ -8,22 +10,24 @@
 #' @export
 #'
 #' @examples
+#'
+#' # Connect to NRA's data warehouse
+#' NRADWH <- establish_db_connection("NRADWH")
+#'
+#' # Retrieve All Payments to Extractive Industries Revenue Unit in 2022
+#' eiru_2022 <- get_itas_payments(NRADWH, payment_date = c("2022-01-01", "2022-12-31"), office_code = "EIRU")
+#'
 get_itas_payments <- function(db_con, payment_date = NULL, office_code = NULL) {
-
-    # Permitted values for office_code
-    nra_office_codes <- c("BOSTO", "FTWSTO3", "FTESTO", "KESTO", "SLMTO", "SLLTO", "MSTO", "CIB",
-                          "EIRU", "KNSTO", "FTCSTO", "WITO")
 
     # Try to check validity of user-supplied parameters
     stopifnot("Database connection is invalid." = DBI::dbIsValid(db_con))
     if (!is.null(office_code)) {
-        stopifnot("Some office codes are invalid" = all(office_code %in% nra_office_codes))
+        stopifnot("Some office codes are invalid" = all(office_code %in% MRPtools::TAX_OFFICE_CODES))
     }
     if (!is.null(payment_date)) {
         stopifnot("payment_date must be a vector or list in the form c(start_date, end_date)" =
                       length(payment_date) == 2)
     }
-
 
     # NOTE:
     # - Until 'DAILY_PAYMENT..." is updated, need to merge to get 'OFFICE' code

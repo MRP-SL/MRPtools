@@ -1,4 +1,6 @@
-#' Get ASYCUDA Import-Export Data
+#' Retrieve ASYCUDA Import-Export Records from Data Warehouse
+#'
+#' This helper function constructs and executes a query of the ASY_IMP_EXP_STATS table in the Data Warehouse based on the supplied arguments.
 #'
 #' @param db_con An active DBIConnection object, often created by 'establish_db_connection()'
 #' @param cols (Optional) A vector or list of columns to include in the subset.
