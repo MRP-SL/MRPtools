@@ -30,9 +30,10 @@ fetch_asycuda_rmu <- function(db_con, cols = NULL, reg_date = NULL, dec_type = N
     # Validate user-supplied objects
     stopifnot("Object supplied as db_con is not an active connection" = DBI::dbIsValid(db_con))
 
-    if(!(all(dec_type %in% MRPtools::DECTYPE_CODES))) {
-        warning("Some DECTYPE codes are invalid and will be ignored.")
-    }
+    # Currently, there is a typo in DECTYPE for RMU
+    # if(!(all(dec_type %in% MRPtools::DECTYPE_CODES))) {
+    #     warning("Some DECTYPE codes are invalid and will be ignored.")
+    # }
 
     if (!is.null(reg_date)) {
         # Confirm only two values supplied. Take the first as start and second as end.
@@ -53,7 +54,7 @@ fetch_asycuda_rmu <- function(db_con, cols = NULL, reg_date = NULL, dec_type = N
             'SELECT {`cols`*}
             FROM "NRADWH"."ASY_RMU_IMPORT_EXPORT_STATS"
             WHERE "REGDATE" BETWEEN {start_date} AND {end_date}
-            AND "DECTYPE" = ({dec_type*})',
+            AND "DECTYPE" IN ({dec_type*})',
             .con = db_con
         )
     } else if (!is.null(dec_type)) {
